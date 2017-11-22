@@ -1,13 +1,11 @@
 package es.uca.gii.csi17.sith.data;
 
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
-
 import java.sql.ResultSet;
+import java.util.Properties;
 
 import es.uca.gii.csi17.sith.util.Config;
 
@@ -24,8 +22,8 @@ public class Data {
        catch (Exception ee) { throw ee; }
 	}
     
-    public static String String2Sql(String s, boolean bAddQuotes, boolean bAddWildcards){
-   	
+    public static String String2Sql(String s, boolean bAddQuotes, boolean bAddWildcards)
+    {   	
     	if(bAddQuotes && !bAddWildcards) {
     		s = s.replace("'", "''");
     		s = new String("'" + s + "'");
@@ -61,23 +59,21 @@ public class Data {
             ).getProperty("jdbc.driverClassName")).newInstance();
     }
     
-    public static int LastId(Connection con) throws SQLException
+    public static int LastId(Connection con) throws SQLException, IOException
     {
     	ResultSet rs = null;
-    	int iLastId=-1;
     	try
     	{
-    		rs = con.createStatement().executeQuery("select last_insert_id();");
+    		rs = con.createStatement().executeQuery(
+    				Config.Properties(getPropertiesUrl()).
+    				getProperty("jdbc.lastIdSentence"));
     		rs.next();
-    		System.out.println("last id(): " + rs.getInt(1));
-    		iLastId = rs.getInt(1);
+    		return rs.getInt(1);
     	}
 	 	
 		finally {
 			if (rs != null) rs.close();
 	 	    if (con != null) con.close();
 		}
-    	
-    	return iLastId;
     }
 }

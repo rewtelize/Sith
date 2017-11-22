@@ -3,6 +3,7 @@ package es.uca.gii.csi17.sith.test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -19,6 +20,7 @@ class DataTest {
 	}
 
 	@Test
+	@Disabled("Ya probado")
 	public void testDbAccess() throws Exception {
 		Connection con = null;
 	    ResultSet rs = null;
@@ -27,14 +29,14 @@ class DataTest {
 	 		con = Data.Connection();
 	 		rs = con.createStatement().executeQuery("SELECT * FROM cliente;");
 	            
-	 		//int i = 0;
+	 		int i = 0;
 	 		System.out.println("Numero de registros por tabla: " + rs.getMetaData().getColumnCount());
 	 		while (rs.next()) {
 	 			System.out.println(rs.getString("id") + " " + rs.getString("nombre"));
-	 			//i++;
+	 			i++;
 	 		}
 	 		
-	 		//assertEquals(i, 2);
+	 		assertEquals(i, 2);
 	    }
 	 	catch (SQLException ee) { throw ee; }
 		finally {
