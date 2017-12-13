@@ -7,6 +7,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
+
+import es.uca.gii.csi17.sith.data.Cliente;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -57,7 +60,7 @@ public class FrmMain {
 		mitNuevoCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				IfrCliente ifrCliente = new IfrCliente();
+				IfrCliente ifrCliente = new IfrCliente(new Cliente);
 				ifrCliente.setBounds(10, 27, 244, 192);
 				frame.getContentPane().add(ifrCliente);
 				ifrCliente.setVisible(true);
@@ -69,6 +72,15 @@ public class FrmMain {
 		menuBar.add(mitBuscar);
 		
 		JMenuItem mitBuscarCliente = new JMenuItem("Cliente");
+		mitBuscarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IfrClientes ifrClientes = new IfrClientes(frame);
+				ifrClientes.setBounds(12, 28, 244, 192);
+				// El segundo parámetro es para que siempre aparezca delante
+				frame.getContentPane().add(ifrClientes, 0);
+				ifrClientes.setVisible(true);
+			}
+		});
 		mitBuscar.add(mitBuscarCliente);
 		frame.getContentPane().setLayout(null);
 	}

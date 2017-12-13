@@ -19,7 +19,8 @@ public class IfrCliente extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IfrCliente() {
+	public IfrCliente(Cliente cliente) {
+		_cliente = cliente;
 		setClosable(true);
 		setResizable(true);
 		setTitle("Cliente");

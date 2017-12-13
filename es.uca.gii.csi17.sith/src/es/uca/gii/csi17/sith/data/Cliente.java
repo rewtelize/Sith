@@ -163,12 +163,9 @@ public class Cliente
 	 * 
 	 * Anotacion: Realmente no debería pasarse como parámetro el ID ya que es 
 	 * clave primaria y es única (y además no puede ser nula) pero para no tener 
-	 * que modificar las tablas lo hicimos así, pero  realmente está mal. 
+	 * que modificar las tablas lo hicimos así, pero realmente está mal. 
 	 */
-	public List<Cliente> Select(int iId, String sNombre) throws Exception {
-		
-		if (_bIsDeleted)
-			throw new Exception("Entidad ya eliminada");
+	public static List<Cliente> Select(Integer iId, String sNombre) throws Exception {
 		
 		List<Cliente> list = new LinkedList<Cliente>();
 		Connection con = null;
@@ -178,7 +175,7 @@ public class Cliente
 	 		con = Data.Connection();
 	 		rs = con.createStatement().executeQuery("SELECT id FROM cliente " 
 	 				+ where(iId, sNombre));
-
+	
 	 		while(rs.next()) 
 	 			list.add(new Cliente(rs.getInt("id")));
 	 		

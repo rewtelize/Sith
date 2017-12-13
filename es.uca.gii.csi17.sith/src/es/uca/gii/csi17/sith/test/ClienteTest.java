@@ -40,8 +40,7 @@ public class ClienteTest {
 	public void testSelect() throws Exception
 	{
 		Cliente cliente = new Cliente(2);
-		List<Cliente> list = new LinkedList<Cliente>();
-		list = cliente.Select(2, null);
+		List<Cliente> list = Cliente.Select(2, null);
 		assertEquals(list.get(0).getNombre(), cliente.getNombre());		
 	}
 	
