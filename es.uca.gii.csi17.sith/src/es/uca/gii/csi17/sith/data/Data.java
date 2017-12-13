@@ -26,20 +26,17 @@ public class Data {
     {   	
     	if(bAddQuotes && !bAddWildcards) {
     		s = s.replace("'", "''");
-    		s = new String("'" + s + "'");
-    		
+    		s = new String("'" + s + "'");	
     	}
     	
     	if(bAddWildcards && !bAddQuotes) {
     		s = s.replace("'", "''");
     		s = new String("%" + s + "%");
-    		
     	}
     	
     	if(bAddWildcards && bAddQuotes) {
     		s = s.replace("'", "''");
     		s = new String("'%" + s + "%'");
-    		
     	}
 
     	return s;
@@ -70,7 +67,6 @@ public class Data {
     		rs.next();
     		return rs.getInt(1);
     	}
-	 	
 		finally {
 			if (rs != null) rs.close();
 	 	    if (con != null) con.close();

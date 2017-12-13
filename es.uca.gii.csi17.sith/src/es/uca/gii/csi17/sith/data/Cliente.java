@@ -41,8 +41,8 @@ public class Cliente
 	    try
 	    {
 	 		con = Data.Connection();
-	 		rs = con.createStatement().executeQuery("SELECT id, nombre FROM cliente where "
-	 				+ "id "	+ "=" + iId + ";");
+	 		rs = con.createStatement().executeQuery("SELECT id, nombre FROM cliente "
+	 				+ "where id " + "=" + iId + ";");
 	 		rs.next();
 	 		_iId = iId;
 	 		_sNombre = rs.getString("nombre");
@@ -64,23 +64,28 @@ public class Cliente
 	public static Cliente create(String sNombre) throws Exception
 	{
 		Connection con = null;
-	    ResultSet rs = null;
 	    try
 	    {
 	 		con = Data.Connection();
-	 		con.createStatement().executeUpdate("INSERT INTO cliente(nombre) VALUES ("
-	 				+ Data.String2Sql(sNombre, true, false) + ");");
+	 		con.createStatement().executeUpdate("INSERT INTO cliente(nombre) VALUES "
+	 				+ "(" + Data.String2Sql(sNombre, true, false) + ");");
 	 		
 	 		return new Cliente(Data.LastId(con));
 	    }
 	    catch (SQLException ee) { throw ee; }
 		finally
 		{
-			if (rs != null) rs.close();
 	 	    if (con != null) con.close();
 		}
 	}
 	
+	/**
+	 * Método privado que recibe dos parámetros y devuelve en forma de cadena
+	 * la clausula WHERE [condiciones].
+	 * @param Integer iId, String sNombre.
+	 * @return String que contiene la clausula where + condiciones transformadas en 
+	 * cadena.
+	 */	
 	private static String where(Integer iId, String sNombre) {
 		String sWhere = "";
 		
@@ -97,13 +102,16 @@ public class Cliente
 			return "";
 	}
 	
+	/**
+	 * Método que elimina de la base de datos una instancia. Si la instancia 
+	 * ya ha sido eliminada lanza una excepción.
+	 */
 	public void Delete() throws Exception {
 		
 		if (_bIsDeleted)
 			throw new Exception("Entidad ya eliminada");
 			
 		Connection con = null;
-		ResultSet rs = null;
 	    try
 	    {
 	 		con = Data.Connection();
@@ -116,32 +124,47 @@ public class Cliente
 	    catch (SQLException ee) { throw ee; }
 		finally
 		{
-			if (rs != null) rs.close();
 	 	    if (con != null) con.close();
 		}
 	}
 	
+	/**
+	 * Método que actualiza una instancia en la base de datos. Si la instancia ha
+	 * sido eliminada, lanza una excepción.
+	 */
 	public void Update() throws Exception {
 		
 		if (_bIsDeleted)
 			throw new Exception("Entidad ya eliminada");
 			
 		Connection con = null;
-		ResultSet rs = null;
 	    try
 	    {
 	 		con = Data.Connection();
 	 		con.createStatement().executeUpdate("UPDATE cliente SET nombre = " 
-	 				+ Data.String2Sql(_sNombre, true, false) + " " + where(_iId, null) + ";");
+	 				+ Data.String2Sql(_sNombre, true, false) + " " + 
+	 				where(_iId, null) + ";");
 	 	}
 	    catch (SQLException ee) { throw ee; }
 		finally
 		{
-			if (rs != null) rs.close();
 	 	    if (con != null) con.close();
 		}
 	}
 	
+	/**
+	 * Método que recibe tantos parámetros como atributos tiene la tabla sobre la que
+	 * realiza el select. Si la entidad sobre la que está intentando hacer el
+	 * select ha sido eliminada, lanza una excepción.
+	 * @param int iId, String sNombre. Estos parámetros pueden ser nulos, la funcion
+	 * where() se encargará de devolver una cosa u otra en función.
+	 * @return List<Cliente> list. Devuelve una lista con los clientes cuyos atributos
+	 * coincidan con los pasados como parámetros.
+	 * 
+	 * Anotacion: Realmente no debería pasarse como parámetro el ID ya que es 
+	 * clave primaria y es única (y además no puede ser nula) pero para no tener 
+	 * que modificar las tablas lo hicimos así, pero  realmente está mal. 
+	 */
 	public List<Cliente> Select(int iId, String sNombre) throws Exception {
 		
 		if (_bIsDeleted)
