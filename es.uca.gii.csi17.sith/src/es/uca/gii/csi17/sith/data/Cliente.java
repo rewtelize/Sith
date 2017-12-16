@@ -34,7 +34,7 @@ public class Cliente
 	 * @param iId Identificador del cliente
 	 * @return Entidad de la clase Cliente
 	 */
-	public Cliente(int iId) throws Exception
+	public Cliente(Integer iId) throws Exception
 	{
 		Connection con = null;
 	    ResultSet rs = null;

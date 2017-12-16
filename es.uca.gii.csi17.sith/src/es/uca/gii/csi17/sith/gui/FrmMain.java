@@ -8,10 +8,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 
-import es.uca.gii.csi17.sith.data.Cliente;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 
 public class FrmMain {
 
@@ -60,10 +60,13 @@ public class FrmMain {
 		mitNuevoCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				IfrCliente ifrCliente = new IfrCliente(new Cliente);
-				ifrCliente.setBounds(10, 27, 244, 192);
-				frame.getContentPane().add(ifrCliente);
-				ifrCliente.setVisible(true);
+				try
+				{
+					IfrCliente ifrCliente = new IfrCliente(null);
+					ifrCliente.setBounds(10, 27, 244, 192);
+					frame.getContentPane().add(ifrCliente);
+					ifrCliente.setVisible(true);
+				}catch(Exception e1) {}
 			}
 		});
 		mitNuevo.add(mitNuevoCliente);
