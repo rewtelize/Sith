@@ -19,8 +19,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import es.uca.gii.csi17.sith.data.Cliente;
+import es.uca.gii.csi17.sith.data.Raza;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
 
 public class IfrClientes extends JInternalFrame {
 	private JTextField txtIntroduceCliente;
@@ -53,15 +56,29 @@ public class IfrClientes extends JInternalFrame {
 		getContentPane().add(txtIntroduceCliente, BorderLayout.WEST);
 		txtIntroduceCliente.setColumns(12);
 		
+		JComboBox<Raza> cmbRaza = new JComboBox<Raza>();
+		cmbRaza.setEditable(true);
+		try {
+			cmbRaza.setModel(new RazaListModel(Raza.Select()));
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(cmbRaza, "Error en el desplegable.");
+		}
+		getContentPane().add(cmbRaza, BorderLayout.EAST);
+		
 		JButton btnNewButton = new JButton("Buscar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					tabResult.setModel(new ClientesTableModel(
-							Cliente.Select((Integer)null,
-							txtIntroduceCliente.getText())));
+					if(cmbRaza.getSelectedItem() == null)
+						tabResult.setModel(new ClientesTableModel(
+								Cliente.Select(null, txtIntroduceCliente.getText(), null)));						
+					else
+						System.out.println(cmbRaza.getSelectedItem().toString());
+						tabResult.setModel(new ClientesTableModel(
+								Cliente.Select(null, txtIntroduceCliente.getText(), 
+									cmbRaza.getSelectedItem().toString())));
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(btnNewButton, "Error al buscar");;
+					JOptionPane.showMessageDialog(btnNewButton, "Error al buscar");
 				}
 			}
 		});

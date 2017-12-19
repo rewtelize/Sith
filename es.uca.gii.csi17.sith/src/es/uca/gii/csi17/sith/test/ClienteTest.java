@@ -1,12 +1,9 @@
 package es.uca.gii.csi17.sith.test;
 
-import  es.uca.gii.csi17.sith.data.Cliente;
-
+import es.uca.gii.csi17.sith.data.Cliente;
+import es.uca.gii.csi17.sith.data.Raza;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.LinkedList;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +28,8 @@ public class ClienteTest {
 	@Test
 	public void testCreate() throws Exception
 	{
-		Cliente cliente = Cliente.create("pepe");
+		Raza raza = new Raza(1);
+		Cliente cliente = Cliente.create("pepe", raza);
 		assertEquals("pepe", cliente.getNombre());
 		cliente.Delete();
 	}
@@ -40,7 +38,7 @@ public class ClienteTest {
 	public void testSelect() throws Exception
 	{
 		Cliente cliente = new Cliente(2);
-		List<Cliente> list = Cliente.Select(2, null);
+		List<Cliente> list = Cliente.Select(2, null, null);
 		assertEquals(list.get(0).getNombre(), cliente.getNombre());		
 	}
 	
@@ -59,7 +57,8 @@ public class ClienteTest {
 	@Test
 	public void testDelete() throws Exception
 	{
-		Cliente cliente = Cliente.create("javi");
+		Raza raza = new Raza(1);
+		Cliente cliente = Cliente.create("pepe", raza);
 		cliente.Delete();
 		assertEquals(cliente.getIsDeleted(), true);
 		try {

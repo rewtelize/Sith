@@ -6,12 +6,11 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Cliente 
+public class Raza 
 {
 	private int _iId;
 	private String _sNombre;
 	private boolean _bIsDeleted;
-	private Raza _raza;
 	
 	public int getId() { return _iId; }
 	
@@ -21,17 +20,13 @@ public class Cliente
 	
 	public void setNombre(String sNombre) { _sNombre = sNombre; }
 	
-	public void setRaza(Raza raza) {_raza = raza;}
-	
-	public Raza getRaza() { return _raza;}
-	
 	/**
 	 * Función que devuelve una instancia de la base de datos en tipo String.
 	 * @return Instancia de la base de datos en tipo String.
 	 */
 	public String toString()
 	{
-		return super.toString() + ":" + _iId + ":" + _sNombre + ":" + _raza.getId();
+		return _sNombre;
 	}
 	
 	/**
@@ -39,19 +34,18 @@ public class Cliente
 	 * @param iId Identificador del cliente
 	 * @return Entidad de la clase Cliente
 	 */
-	public Cliente(Integer iId) throws Exception
+	public Raza(Integer iId) throws Exception
 	{
 		Connection con = null;
 	    ResultSet rs = null;
 	    try
 	    {
 	 		con = Data.Connection();
-	 		rs = con.createStatement().executeQuery("SELECT id, nombre, id_Raza FROM cliente "
+	 		rs = con.createStatement().executeQuery("SELECT id, nombre FROM raza "
 	 				+ "where id " + "=" + iId + ";");
 	 		rs.next();
 	 		_iId = iId;
 	 		_sNombre = rs.getString("nombre");
-	 		_raza = new Raza(rs.getInt("id_Raza"));
 	    }
 	    catch (SQLException ee) { throw ee; }
 		finally
@@ -67,17 +61,16 @@ public class Cliente
 	 * @param sNombre Nombre del cliente en la base de datos.
 	 * @return Cliente creado a partir de una instancia de la base de datos.
 	 */
-	public static Cliente create(String sNombre, Raza raza) throws Exception
+	public static Raza create(String sNombre) throws Exception
 	{
 		Connection con = null;
 	    try
 	    {
-	 		System.out.println("INSERT INTO cliente(nombre, id_Raza) VALUES " + 
-		 				"(" + Data.String2Sql(sNombre, true, false) + "," + raza.getId() + ");");
 	 		con = Data.Connection();
-	 		con.createStatement().executeUpdate("INSERT INTO cliente(nombre, id_Raza) VALUES "
-	 				+ "(" + Data.String2Sql(sNombre, true, false) + "," + raza.getId() + ");");
-	 		return new Cliente(Data.LastId(con));
+	 		con.createStatement().executeUpdate("INSERT INTO cliente(nombre) VALUES "
+	 				+ "(" + Data.String2Sql(sNombre, true, false) + ");");
+	 		
+	 		return new Raza(Data.LastId(con));
 	    }
 	    catch (SQLException ee) { throw ee; }
 		finally
@@ -93,11 +86,8 @@ public class Cliente
 	 * @return String que contiene la clausula where + condiciones transformadas en 
 	 * cadena.
 	 */	
-	private static String where(Integer iId, String sNombre, String sRaza) {
+	private static String where(Integer iId, String sNombre) {
 		String sWhere = "";
-		
-		if(sRaza != null)
-			sWhere = sWhere + "INNER JOIN Raza ON cliente.id_Raza = raza.id WHERE raza.nombre = " + sRaza;
 		
 		if(iId != null)
 			sWhere = sWhere + " id = " + iId + " and ";
@@ -125,10 +115,10 @@ public class Cliente
 	    try
 	    {
 	 		con = Data.Connection();
-	 		con.createStatement().executeUpdate("DELETE FROM cliente " + 
-	 				where(_iId, null, null));
-	 		System.out.println("DELETE FROM cliente " + 
-	 				where(_iId, null, null));
+	 		con.createStatement().executeUpdate("DELETE FROM raza " + 
+	 				where(_iId, null));
+	 		System.out.println("DELETE FROM raza " + 
+	 				where(_iId, null));
 	 		_bIsDeleted = true;
 	    }
 	    catch (SQLException ee) { throw ee; }
@@ -151,9 +141,9 @@ public class Cliente
 	    try
 	    {
 	 		con = Data.Connection();
-	 		con.createStatement().executeUpdate("UPDATE cliente SET nombre = " 
-	 				+ Data.String2Sql(_sNombre, true, false) + ", id_Raza = " + _raza.getId() + " " + 
-	 				where(_iId, null, null) + ";");
+	 		con.createStatement().executeUpdate("UPDATE raza SET nombre = " 
+	 				+ Data.String2Sql(_sNombre, true, false) + " " + 
+	 				where(_iId, null) + ";");
 	 	}
 	    catch (SQLException ee) { throw ee; }
 		finally
@@ -175,19 +165,18 @@ public class Cliente
 	 * clave primaria y es única (y además no puede ser nula) pero para no tener 
 	 * que modificar las tablas lo hicimos así, pero realmente está mal. 
 	 */
-	public static List<Cliente> Select(Integer iId, String sNombre, String sRaza) throws Exception {
+	public static List<Raza> Select() throws Exception {
 		
-		List<Cliente> list = new LinkedList<Cliente>();
+		List<Raza> list = new LinkedList<Raza>();
 		Connection con = null;
 		ResultSet rs = null;
 	    try
 	    {
 	 		con = Data.Connection();
-	 		rs = con.createStatement().executeQuery("SELECT id FROM cliente " 
-	 				+ where(iId, sNombre, sRaza));
+	 		rs = con.createStatement().executeQuery("SELECT * FROM raza order by nombre");
 	
 	 		while(rs.next()) 
-	 			list.add(new Cliente(rs.getInt("id")));
+	 			list.add(new Raza(rs.getInt("id")));
 	 		
 	 		return list;
 	    }
@@ -199,3 +188,4 @@ public class Cliente
 		}
 	}
 }
+
