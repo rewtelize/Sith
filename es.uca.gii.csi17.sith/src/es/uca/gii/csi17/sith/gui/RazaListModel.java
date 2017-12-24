@@ -9,6 +9,8 @@ import es.uca.gii.csi17.sith.data.*;
 
 public class RazaListModel  extends AbstractListModel<Raza>  implements ComboBoxModel<Raza> 
 {
+
+	private static final long serialVersionUID = 1L;
 	private List<Raza> _aData;
 	private Object _selection = null;
 	

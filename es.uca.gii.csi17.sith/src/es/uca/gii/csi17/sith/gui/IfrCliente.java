@@ -31,7 +31,7 @@ public class IfrCliente extends JInternalFrame {
 		setBounds(100, 100, 450, 299);
 		getContentPane().setLayout(new MigLayout("", "[grow]", "[][][][][][][][][]"));
 		
-		JComboBox<Raza> cmbRaza = new JComboBox();
+		JComboBox<Raza> cmbRaza = new JComboBox<Raza>();
 		try {
 			cmbRaza.setModel(new RazaListModel(Raza.Select()));
 		} catch (Exception e1) {

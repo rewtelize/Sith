@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS cliente (
 #INSERT INTO ticket VALUES(1, '2010-10-10 01:02:03');
 #INSERT INTO ticket VALUES(2, '2011-11-11 01:02:03');
 
-INSERT INTO cliente(nombre, id_Raza) VALUES('javi', 1);
-INSERT INTO cliente(nombre, id_Raza) VALUES('george', 1);
 INSERT INTO raza(nombre) VALUES('wookiee');
 INSERT INTO raza(nombre) VALUES('humano');
+INSERT INTO cliente(nombre, id_Raza) VALUES('javi', 1);
+INSERT INTO cliente(nombre, id_Raza) VALUES('george', 1);
+

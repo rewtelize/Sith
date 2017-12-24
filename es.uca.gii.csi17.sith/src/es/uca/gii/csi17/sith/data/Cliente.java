@@ -97,13 +97,14 @@ public class Cliente
 		String sWhere = "";
 		
 		if(sRaza != null)
-			sWhere = sWhere + "INNER JOIN Raza ON cliente.id_Raza = raza.id WHERE raza.nombre = " + sRaza;
+			sWhere = sWhere + "raza.nombre = " + Data.String2Sql(sRaza, true, false) 
+							+ " and ";
 		
 		if(iId != null)
-			sWhere = sWhere + " id = " + iId + " and ";
+			sWhere = sWhere + " cliente.id = " + iId + " and ";
 		
 		if(sNombre != null)
-			sWhere = sWhere + " nombre = " + Data.String2Sql(sNombre, true, false)
+			sWhere = sWhere + " cliente.nombre = " + Data.String2Sql(sNombre, true, false)
 				+ " and ";
 		
 		if(sWhere!="")
@@ -183,11 +184,27 @@ public class Cliente
 	    try
 	    {
 	 		con = Data.Connection();
-	 		rs = con.createStatement().executeQuery("SELECT id FROM cliente " 
+	 		
+	 		System.out.println("SELECT cliente.id FROM cliente "
+	 				+ "INNER JOIN raza on cliente.id_Raza = raza.id " 
 	 				+ where(iId, sNombre, sRaza));
-	
-	 		while(rs.next()) 
-	 			list.add(new Cliente(rs.getInt("id")));
+	 		
+	 		if(sRaza == null) {
+		 		rs = con.createStatement().executeQuery("SELECT id FROM cliente " 
+		 				+ where(iId, sNombre, sRaza));
+		
+		 		while(rs.next()) 
+		 			list.add(new Cliente(rs.getInt("id")));
+	 		}
+	 		
+	 		else {
+		 		rs = con.createStatement().executeQuery("SELECT cliente.id FROM cliente "
+		 				+ "INNER JOIN raza on cliente.id_Raza = raza.id " 
+		 				+ where(iId, sNombre, sRaza));
+		
+		 		while(rs.next()) 
+		 			list.add(new Cliente(rs.getInt("id")));
+	 		}
 	 		
 	 		return list;
 	    }

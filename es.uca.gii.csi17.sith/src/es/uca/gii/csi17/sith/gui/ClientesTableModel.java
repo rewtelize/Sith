@@ -7,6 +7,8 @@ import javax.swing.table.AbstractTableModel;
 import es.uca.gii.csi17.sith.data.Cliente;
 
 public class ClientesTableModel extends AbstractTableModel {
+
+	private static final long serialVersionUID = 1L;
 	List<Cliente> _aData;
 	
 	ClientesTableModel(List<Cliente> aData){
@@ -25,6 +27,7 @@ public class ClientesTableModel extends AbstractTableModel {
 		switch(iCol) {
 			case 0: return _aData.get(iRow).getId();
 			case 1: return _aData.get(iRow).getNombre(); 
+			case 2: return _aData.get(iRow).getRaza().getNombre();
 			default: return "Error";
 		}				
 	}

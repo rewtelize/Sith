@@ -1,7 +1,5 @@
 package es.uca.gii.csi17.sith.gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -26,6 +24,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComboBox;
 
 public class IfrClientes extends JInternalFrame {
+
+	private static final long serialVersionUID = 1L;
 	private JTextField txtIntroduceCliente;
 	private JTable tabResult;
 	private Container pnlParent;
@@ -68,20 +68,24 @@ public class IfrClientes extends JInternalFrame {
 		JButton btnNewButton = new JButton("Buscar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String sNombre = null;
+				if (!txtIntroduceCliente.getText().isEmpty() && 
+						!txtIntroduceCliente.getText().equals("Introduce cliente..."))
+					sNombre = txtIntroduceCliente.getText();
 				try {
 					if(cmbRaza.getSelectedItem() == null)
 						tabResult.setModel(new ClientesTableModel(
-								Cliente.Select(null, txtIntroduceCliente.getText(), null)));						
+								Cliente.Select(null, sNombre, null)));						
 					else
-						System.out.println(cmbRaza.getSelectedItem().toString());
 						tabResult.setModel(new ClientesTableModel(
-								Cliente.Select(null, txtIntroduceCliente.getText(), 
+								Cliente.Select(null, sNombre, 
 									cmbRaza.getSelectedItem().toString())));
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(btnNewButton, "Error al buscar");
 				}
 			}
 		});
+		
 		getContentPane().add(btnNewButton, BorderLayout.SOUTH);
 		
 		tabResult = new JTable();

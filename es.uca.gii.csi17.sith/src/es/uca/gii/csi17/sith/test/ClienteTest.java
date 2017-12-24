@@ -38,7 +38,7 @@ public class ClienteTest {
 	public void testSelect() throws Exception
 	{
 		Cliente cliente = new Cliente(2);
-		List<Cliente> list = Cliente.Select(2, null, null);
+		List<Cliente> list = Cliente.Select(2, "george", "wookiee");
 		assertEquals(list.get(0).getNombre(), cliente.getNombre());		
 	}
 	
