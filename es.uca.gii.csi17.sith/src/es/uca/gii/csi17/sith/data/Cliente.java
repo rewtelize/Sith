@@ -72,8 +72,6 @@ public class Cliente
 		Connection con = null;
 	    try
 	    {
-	 		System.out.println("INSERT INTO cliente(nombre, id_Raza) VALUES " + 
-		 				"(" + Data.String2Sql(sNombre, true, false) + "," + raza.getId() + ");");
 	 		con = Data.Connection();
 	 		con.createStatement().executeUpdate("INSERT INTO cliente(nombre, id_Raza) VALUES "
 	 				+ "(" + Data.String2Sql(sNombre, true, false) + "," + raza.getId() + ");");
@@ -127,8 +125,6 @@ public class Cliente
 	    {
 	 		con = Data.Connection();
 	 		con.createStatement().executeUpdate("DELETE FROM cliente " + 
-	 				where(_iId, null, null));
-	 		System.out.println("DELETE FROM cliente " + 
 	 				where(_iId, null, null));
 	 		_bIsDeleted = true;
 	    }
@@ -184,10 +180,6 @@ public class Cliente
 	    try
 	    {
 	 		con = Data.Connection();
-	 		
-	 		System.out.println("SELECT cliente.id FROM cliente "
-	 				+ "INNER JOIN raza on cliente.id_Raza = raza.id " 
-	 				+ where(iId, sNombre, sRaza));
 	 		
 	 		if(sRaza == null) {
 		 		rs = con.createStatement().executeQuery("SELECT id FROM cliente " 

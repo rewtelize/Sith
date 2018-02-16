@@ -24,21 +24,9 @@ public class Data {
     
     public static String String2Sql(String s, boolean bAddQuotes, boolean bAddWildcards)
     {   	
-    	if(bAddQuotes && !bAddWildcards) {
-    		s = s.replace("'", "''");
-    		s = new String("'" + s + "'");	
-    	}
-    	
-    	if(bAddWildcards && !bAddQuotes) {
-    		s = s.replace("'", "''");
-    		s = new String("%" + s + "%");
-    	}
-    	
-    	if(bAddWildcards && bAddQuotes) {
-    		s = s.replace("'", "''");
-    		s = new String("'%" + s + "%'");
-    	}
-
+    	s = s.replace("'", "''"); 
+    	if(bAddWildcards) s = "%" + s + "%";	
+      	if(bAddQuotes) s = "'" + s + "'";
     	return s;
     }
     
